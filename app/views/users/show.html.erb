@@ -1,0 +1,30 @@
+<h2>You are on <%= @user.email %> page</h2>
+<table>
+  <thead>
+    <tr>
+      <th>From</th>
+      <th>Title</th>
+      <th>Body</th>
+      <th>Views count</th>
+      <th>Rating</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user.questions.each do |question| %>
+      <tr>
+        <td><%= question.user.email %>|</td>
+        <td><%= question.title %>|</td>
+        <td><%= question.body %>|</td>
+        <td><%= question.views_count %>|</td>
+        <td><%= question.rating %>|</td>
+        <td><%= link_to 'Show', question %>|</td>
+        <td><%= link_to 'Edit', edit_question_path(question) %>|</td>
+        <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %>|</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

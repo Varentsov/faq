@@ -1,0 +1,86 @@
+<% if @question.soloved? %>
+<h2>Soloved!</h2>
+<% else %>
+<h2>Unsoloved</h2>
+<% end %>
+<% if current_user %>
+<%= link_to 'This question soloved!' %>
+<% end %> 
+<p id="notice"><%= notice %></p>
+<p>
+  <strong>Title:</strong>
+  <%= @question.title %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @question.body %>
+</p>
+
+<p>
+  <strong>Views count:</strong>
+  <%= @question.views_count %>
+</p>
+
+<p>
+  <strong>Rating:</strong>
+  <%= @question.rating %>
+</p>
+<p>
+  <strong>Creation time:</strong>
+  <%= @question.created_at %>
+</p>
+<p>
+    <strong>From:</strong>
+    <%= link_to user_path(@question.user.id) do %>
+    <%= @question.user.email %>
+    <% end %>
+  </p>
+<%= link_to 'Edit', edit_question_path(@question) %> |
+<%= link_to 'Back', questions_path %>
+<br/>
+<% if !@question.answers.empty? %>
+<h2>This question have <%= pluralize(@question.answers.count, "answer") %></h2>
+<% @question.answers.each do |answer| %>
+  <p>
+    <strong>From:</strong>
+    <%= answer.from %>
+  </p>
+ 
+  <p>
+    <strong>Comment:</strong>
+    <%= answer.body %>
+  </p>
+  <p>
+    <strong>Rating:</strong>
+    <%= answer.rating %>
+  </p>
+  <p>
+  <strong>Creation time:</strong>
+  <%= answer.created_at %>
+</p>
+  <%= link_to 'Delete answer', [answer.question, answer], method: :delete, data: { confirm: 'Are you sure?' } %>
+  <hr>
+<% end %>
+<% else %>
+<h2>No any answers yet. Be first!<h2>
+<% end %>
+
+<h2>Add a answer:</h2>
+<%= form_for([@question, @question.answers.build]) do |f| %>
+  <p>
+    <%= f.label :from %><br>
+    <%= f.text_field :from %>
+  </p>
+  <p>
+    <%= f.label :body %><br>
+    <%= f.text_area :body %>
+  </p>
+  <p>
+    <%= f.label :rating %><br>
+    <%= f.number_field :rating %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
